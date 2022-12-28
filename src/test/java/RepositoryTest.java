@@ -57,6 +57,21 @@ public class RepositoryTest {
     }
 
     @Test
+    public void shouldThrowExceptionWhenRemovingByInvalidID() {
+        Repository repo = new Repository();
+        repo.save(book1);
+        repo.save(smartphone1);
+        repo.save(book2);
+        repo.save(smartphone2);
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            repo.removeByID(17);
+        });
+
+
+    }
+
+    @Test
     public void shouldRemoveAll() {
         Repository repo = new Repository();
         repo.save(book1);
@@ -72,6 +87,36 @@ public class RepositoryTest {
         Product[] actual = repo.findAll();
 
         Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindByIdProduct() {
+        Repository repo = new Repository();
+        repo.save(book1);
+        repo.save(smartphone1);
+        repo.save(book2);
+        repo.save(smartphone2);
+        repo.findById(3);
+
+        Product expected = book2;
+        Product actual = repo.findById(3);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindByIdNull() {
+        Repository repo = new Repository();
+        repo.save(book1);
+        repo.save(smartphone1);
+        repo.save(book2);
+        repo.save(smartphone2);
+        repo.findById(7);
+
+        Product expected = null;
+        Product actual = repo.findById(7);
+
+        Assertions.assertEquals(expected, actual);
     }
 
 
